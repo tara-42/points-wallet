@@ -1,5 +1,12 @@
 import { sql } from "drizzle-orm";
-import { sqliteTable, text, integer } from "drizzle-orm/sqlite-core";
+import {
+  sqliteTable,
+  text,
+  integer,
+  real,
+  primaryKey,
+  uniqueIndex,
+} from "drizzle-orm/sqlite-core";
 
 export const user = sqliteTable("user", {
   id: text("id").primaryKey(),
@@ -84,6 +91,74 @@ export const verification = sqliteTable("verification", {
     .$onUpdate(() => /* @__PURE__ */ new Date())
     .notNull(),
 });
+
+// Points Wallet tables (docs/SPEC.md §6)
+
+export const household = sqliteTable("household", {
+  id: text("id").primaryKey(),
+  name: text("name").notNull(),
+  inviteCode: text("invite_code").notNull().unique(),
+  createdAt: integer("created_at", { mode: "timestamp_ms" })
+    .default(sql`(cast(unixepoch('subsecond') * 1000 as integer))`)
+    .notNull(),
+});
+
+export type Household = typeof household.$inferSelect;
+
+// One household per user: userId is the primary key.
+export const householdMember = sqliteTable("household_member", {
+  userId: text("user_id")
+    .primaryKey()
+    .references(() => user.id, { onDelete: "cascade" }),
+  householdId: text("household_id")
+    .notNull()
+    .references(() => household.id, { onDelete: "cascade" }),
+  role: text("role", { enum: ["owner", "member"] }).notNull(),
+});
+
+export type HouseholdMember = typeof householdMember.$inferSelect;
+
+export const balance = sqliteTable(
+  "balance",
+  {
+    id: text("id").primaryKey(),
+    householdId: text("household_id")
+      .notNull()
+      .references(() => household.id, { onDelete: "cascade" }),
+    userId: text("user_id")
+      .notNull()
+      .references(() => user.id, { onDelete: "cascade" }),
+    programId: text("program_id").notNull(),
+    points: integer("points"), // null = unknown balance
+    updatedAt: integer("updated_at", { mode: "timestamp_ms" })
+      .default(sql`(cast(unixepoch('subsecond') * 1000 as integer))`)
+      .$onUpdate(() => /* @__PURE__ */ new Date())
+      .notNull(),
+  },
+  (t) => [
+    uniqueIndex("balance_household_user_program_unique").on(
+      t.householdId,
+      t.userId,
+      t.programId
+    ),
+  ]
+);
+
+export type Balance = typeof balance.$inferSelect;
+
+export const valuationOverride = sqliteTable(
+  "valuation_override",
+  {
+    householdId: text("household_id")
+      .notNull()
+      .references(() => household.id, { onDelete: "cascade" }),
+    programId: text("program_id").notNull(),
+    targetCpp: real("target_cpp").notNull(),
+  },
+  (t) => [primaryKey({ columns: [t.householdId, t.programId] })]
+);
+
+export type ValuationOverride = typeof valuationOverride.$inferSelect;
 
 // Recipe tables for scraper and pipeline workflows
 

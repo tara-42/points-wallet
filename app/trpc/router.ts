@@ -5,6 +5,7 @@ import { eq } from "drizzle-orm";
 import { TRPCError } from "@trpc/server";
 import { adminRouter } from "./routes/admin";
 import { workflowsRouter } from "./routes/workflows";
+import { householdRouter } from "./routes/household";
 
 const userRouter = createTRPCRouter({
   getUsers: publicProcedure.query(async ({ ctx }) => {
@@ -42,6 +43,7 @@ export const appRouter = createTRPCRouter({
   user: userRouter,
   admin: adminRouter,
   workflows: workflowsRouter,
+  household: householdRouter,
 });
 
 export type AppRouter = typeof appRouter;
