@@ -1,0 +1,336 @@
+{
+  "schemaVersion": 1,
+  "currency": "CAD",
+  "asOf": "2026-11-03",
+  "valuationMethodology": "cpp = (cash price - taxes and fees) / points used, per The Points Guy: https://thepointsguy.com/loyalty-programs/calculate-redemption-values. Benchmarks are redemption targets, not guarantees.",
+  "categories": [
+    "travel",
+    "groceries",
+    "beauty",
+    "food",
+    "coffee",
+    "retail",
+    "bank"
+  ],
+  "finderQuestions": [
+    {
+      "id": "travel",
+      "text": "Do you fly or stay at hotels, even a few times a year?"
+    },
+    {
+      "id": "cards",
+      "text": "Do you have a premium travel credit card?"
+    },
+    {
+      "id": "groceries",
+      "text": "Do you buy groceries or pharmacy items at big Canadian chains?"
+    },
+    {
+      "id": "style",
+      "text": "Do you shop for clothes, beauty or skincare?"
+    },
+    {
+      "id": "food",
+      "text": "Do you order takeout pizza?"
+    }
+  ],
+  "programs": [
+    {
+      "id": "aeroplan",
+      "name": "Aeroplan",
+      "category": "travel",
+      "unit": "points",
+      "valuation": {
+        "cpp": 2.0,
+        "method": "benchmark",
+        "source": "Prince of Travel",
+        "sourceUrl": "https://princeoftravel.com/guides/quarterly-valuation-updates/",
+        "asOf": "2026-05-01",
+        "note": "Prince of Travel Q2 2026 benchmark (redemption target, CAD)"
+      },
+      "transfersTo": [],
+      "recovery": {
+        "url": "https://www.aircanada.com/ca/en/aco/home/aeroplan.html",
+        "identifier": "Aeroplan number or email",
+        "tip": "Sign in with the email on your Air Canada profile; use 'Forgot password' if needed."
+      },
+      "finder": {
+        "questionId": "travel",
+        "reason": "You fly Air Canada or Star Alliance"
+      }
+    },
+    {
+      "id": "flying_blue",
+      "name": "Air France-KLM Flying Blue",
+      "category": "travel",
+      "unit": "miles",
+      "valuation": {
+        "cpp": 2.0,
+        "method": "benchmark",
+        "source": "Prince of Travel",
+        "sourceUrl": "https://princeoftravel.com/guides/quarterly-valuation-updates/",
+        "asOf": "2026-05-01",
+        "note": "Prince of Travel Q2 2026 benchmark (redemption target, CAD)"
+      },
+      "transfersTo": [],
+      "recovery": {
+        "url": "https://www.flyingblue.com/en/home",
+        "identifier": "Flying Blue number or email",
+        "tip": "Miles stay alive with any qualifying activity, including a credit-card transfer."
+      },
+      "finder": {
+        "questionId": "travel",
+        "reason": "You fly to Europe or book Air France/KLM"
+      }
+    },
+    {
+      "id": "viporter",
+      "name": "Porter VIPorter",
+      "category": "travel",
+      "unit": "points",
+      "valuation": {
+        "cpp": 1.5,
+        "method": "benchmark",
+        "source": "Prince of Travel",
+        "sourceUrl": "https://princeoftravel.com/guides/quarterly-valuation-updates/",
+        "asOf": "2026-05-01",
+        "note": "Prince of Travel Q2 2026 benchmark (redemption target, CAD)"
+      },
+      "transfersTo": [],
+      "recovery": {
+        "url": "https://www.flyporter.com/en-ca/about-porter/viporter",
+        "identifier": "VIPorter number or email",
+        "tip": "Your VIPorter number is on past Porter booking confirmations."
+      },
+      "finder": {
+        "questionId": "travel",
+        "reason": "You fly Porter"
+      }
+    },
+    {
+      "id": "ihg",
+      "name": "IHG One Rewards",
+      "category": "travel",
+      "unit": "points",
+      "valuation": {
+        "cpp": 0.5,
+        "method": "benchmark",
+        "source": "Prince of Travel",
+        "sourceUrl": "https://princeoftravel.com/guides/quarterly-valuation-updates/",
+        "asOf": "2026-05-01",
+        "note": "Prince of Travel Q2 2026 benchmark (redemption target, CAD)"
+      },
+      "transfersTo": [],
+      "recovery": {
+        "url": "https://www.ihg.com/onerewards/content/us/en/home",
+        "identifier": "Member number or email",
+        "tip": "Holiday Inn, Crowne Plaza and InterContinental stays all earn here."
+      },
+      "finder": {
+        "questionId": "travel",
+        "reason": "You stay at Holiday Inn, Crowne Plaza or InterContinental"
+      }
+    },
+    {
+      "id": "amex_mr_ca",
+      "name": "American Express Membership Rewards (Canada)",
+      "category": "bank",
+      "unit": "points",
+      "valuation": {
+        "cpp": 2.2,
+        "method": "benchmark",
+        "source": "Prince of Travel",
+        "sourceUrl": "https://princeoftravel.com/guides/quarterly-valuation-updates/",
+        "asOf": "2026-05-01",
+        "note": "Prince of Travel Q2 2026 benchmark (redemption target, CAD)"
+      },
+      "transfersTo": [
+        {
+          "program": "aeroplan",
+          "ratio": 1.0,
+          "sourceUrl": "https://milesopedia.com/en?p=421504",
+          "asOf": "2026-09-01"
+        },
+        {
+          "program": "flying_blue",
+          "ratio": 1.0,
+          "sourceUrl": "https://princeoftravel.com/news/amex-canada-updates-flying-blue-transfer-rate/",
+          "asOf": "2026-01-03",
+          "note": "Was 1:0.75 before Jan 3, 2026"
+        }
+      ],
+      "recovery": {
+        "url": "https://www.americanexpress.com/en-ca/rewards/membership-rewards/",
+        "identifier": "Amex online login",
+        "tip": "Points live in your card account; there is no separate rewards login."
+      },
+      "finder": {
+        "questionId": "cards",
+        "reason": "You hold an Amex Cobalt, Gold or Platinum card"
+      }
+    },
+    {
+      "id": "chase_ur",
+      "name": "Chase Ultimate Rewards",
+      "category": "bank",
+      "unit": "points",
+      "valuation": {
+        "cpp": 2.3,
+        "method": "benchmark",
+        "source": "Prince of Travel",
+        "sourceUrl": "https://princeoftravel.com/guides/quarterly-valuation-updates/",
+        "asOf": "2026-05-01",
+        "note": "Prince of Travel Q2 2026 benchmark; 1.7 cents USD shown as 2.3 cents CAD"
+      },
+      "transfersTo": [
+        {
+          "program": "aeroplan",
+          "ratio": 1.0,
+          "sourceUrl": "https://awardtravelfinder.com/it/credit-card-transfers/chase-ultimate-rewards",
+          "asOf": "2026-11-03"
+        },
+        {
+          "program": "flying_blue",
+          "ratio": 1.0,
+          "sourceUrl": "https://awardtravelfinder.com/it/credit-card-transfers/chase-ultimate-rewards",
+          "asOf": "2026-11-03"
+        },
+        {
+          "program": "ihg",
+          "ratio": 1.0,
+          "sourceUrl": "https://awardtravelfinder.com/it/credit-card-transfers/chase-ultimate-rewards",
+          "asOf": "2026-11-03"
+        }
+      ],
+      "recovery": {
+        "url": "https://www.chase.com/personal/credit-cards/ultimate-rewards",
+        "identifier": "Chase online login",
+        "tip": "US cards only; points live in your Chase account."
+      },
+      "finder": {
+        "questionId": "cards",
+        "reason": "You hold a Chase Sapphire or Ink card"
+      }
+    },
+    {
+      "id": "pc_optimum",
+      "name": "PC Optimum",
+      "category": "groceries",
+      "unit": "points",
+      "valuation": {
+        "cpp": 0.1,
+        "method": "fixed",
+        "source": "PC Financial",
+        "sourceUrl": "https://www.pcfinancial.ca/en/learning-hub/faqs/pc-optimum/how-do-i-redeem-my-pc-optimum-points",
+        "asOf": "2026-11-03",
+        "note": "10,000 points = $10 off at participating stores"
+      },
+      "transfersTo": [],
+      "recovery": {
+        "url": "https://www.pcoptimum.ca/",
+        "identifier": "Card number, email or phone number",
+        "tip": "Each household member usually has their own account; check both."
+      },
+      "finder": {
+        "questionId": "groceries",
+        "reason": "You shop at Loblaws, No Frills or Shoppers Drug Mart"
+      }
+    },
+    {
+      "id": "scene_plus",
+      "name": "Scene+",
+      "category": "groceries",
+      "unit": "points",
+      "valuation": {
+        "cpp": 1.0,
+        "method": "benchmark",
+        "source": "Prince of Travel",
+        "sourceUrl": "https://princeoftravel.com/guides/quarterly-valuation-updates/",
+        "asOf": "2026-05-01",
+        "note": "Prince of Travel Q2 2026 benchmark (redemption target, CAD)"
+      },
+      "transfersTo": [],
+      "recovery": {
+        "url": "https://www.sceneplus.ca/",
+        "identifier": "Scene+ card number or email",
+        "tip": "Scotiabank cards, Sobeys, Safeway and Cineplex all earn here."
+      },
+      "finder": {
+        "questionId": "groceries",
+        "reason": "You shop at Sobeys or Safeway, or go to Cineplex"
+      }
+    },
+    {
+      "id": "sephora_bi",
+      "name": "Sephora Beauty Insider",
+      "category": "beauty",
+      "unit": "points",
+      "valuation": {
+        "cpp": 2.0,
+        "method": "fixed",
+        "source": "Sephora Canada",
+        "sourceUrl": "https://www.sephora.com/ca/en/beauty/beauty-insider",
+        "asOf": "2026-11-03",
+        "note": "500 points = $10 Beauty Insider Cash (Rouge: 2,500 points = $100)"
+      },
+      "transfersTo": [],
+      "recovery": {
+        "url": "https://www.sephora.com/ca/en/beauty/beauty-insider",
+        "identifier": "Email",
+        "tip": "Points tie to the email on your Sephora account."
+      },
+      "finder": {
+        "questionId": "style",
+        "reason": "You buy beauty or skincare"
+      }
+    },
+    {
+      "id": "dynamite",
+      "name": "Dynamite Collectif",
+      "category": "retail",
+      "unit": "points",
+      "valuation": {
+        "cpp": 3.33,
+        "method": "fixed",
+        "source": "circulaires.club (verified on dynamiteclothing.com)",
+        "sourceUrl": "https://circulaires.club/programme/collectif-dynamite/",
+        "asOf": "2026-10-17",
+        "note": "150 points = $5 off"
+      },
+      "transfersTo": [],
+      "recovery": {
+        "url": "https://www.dynamiteclothing.com/ca/dyn-FAQ.html",
+        "identifier": "Email (cannot be changed)",
+        "tip": "Points reset after 12 months with no purchase. Lost access: customer service, 1-833-747-8175."
+      },
+      "finder": {
+        "questionId": "style",
+        "reason": "You shop for clothes"
+      }
+    },
+    {
+      "id": "dominos",
+      "name": "Domino's Rewards (Canada)",
+      "category": "food",
+      "unit": "points",
+      "valuation": {
+        "cpp": 25.0,
+        "method": "estimate",
+        "source": "Domino's Canada",
+        "sourceUrl": "https://www.dominos.ca/en/pages/rewards/",
+        "asOf": "2026-11-03",
+        "note": "60 points = free medium 2-topping pizza, assumed worth about $15; 10 points per order of $10+"
+      },
+      "transfersTo": [],
+      "recovery": {
+        "url": "https://www.dominos.ca/en/pages/rewards/",
+        "identifier": "Email or phone on your Domino's profile",
+        "tip": "You can claim points for a qualifying order placed in the last 30 days."
+      },
+      "finder": {
+        "questionId": "food",
+        "reason": "You order pizza"
+      }
+    }
+  ]
+}

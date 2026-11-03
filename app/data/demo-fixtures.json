@@ -1,0 +1,184 @@
+{
+  "schemaVersion": 1,
+  "note": "Artificial demo data. Round numbers. Not anyone's real balances.",
+  "demoPassword": "points-wallet-demo",
+  "household": {
+    "name": "Maple Street Household",
+    "inviteCode": "MAPLE1"
+  },
+  "users": [
+    {
+      "key": "avery",
+      "name": "Avery Demo",
+      "email": "avery@demo.pointswallet.test",
+      "role": "owner",
+      "persona": "Everyday points"
+    },
+    {
+      "key": "jordan",
+      "name": "Jordan Demo",
+      "email": "jordan@demo.pointswallet.test",
+      "role": "member",
+      "persona": "Travel maximizer"
+    }
+  ],
+  "balances": [
+    {
+      "user": "avery",
+      "program": "sephora_bi",
+      "points": 1500
+    },
+    {
+      "user": "avery",
+      "program": "pc_optimum",
+      "points": 50000
+    },
+    {
+      "user": "avery",
+      "program": "scene_plus",
+      "points": 8000
+    },
+    {
+      "user": "avery",
+      "program": "dynamite",
+      "points": 300
+    },
+    {
+      "user": "avery",
+      "program": "dominos",
+      "points": 50
+    },
+    {
+      "user": "avery",
+      "program": "amex_mr_ca",
+      "points": 10000
+    },
+    {
+      "user": "jordan",
+      "program": "aeroplan",
+      "points": 60000
+    },
+    {
+      "user": "jordan",
+      "program": "amex_mr_ca",
+      "points": 40000
+    },
+    {
+      "user": "jordan",
+      "program": "chase_ur",
+      "points": 20000
+    },
+    {
+      "user": "jordan",
+      "program": "ihg",
+      "points": 30000
+    },
+    {
+      "user": "jordan",
+      "program": "viporter",
+      "points": 10000
+    },
+    {
+      "user": "jordan",
+      "program": "flying_blue",
+      "points": 5000
+    },
+    {
+      "user": "jordan",
+      "program": "pc_optimum",
+      "points": 20000
+    },
+    {
+      "user": "jordan",
+      "program": "scene_plus",
+      "points": null
+    }
+  ],
+  "valuationOverrides": [
+    {
+      "program": "aeroplan",
+      "targetCpp": 3.0,
+      "why": "Jordan books business class"
+    }
+  ],
+  "calculatorScenario": {
+    "name": "Edmonton for Christmas",
+    "cashPriceCents": 48000,
+    "cashNote": "Flair $400 + $80 carry-on",
+    "options": [
+      {
+        "id": "A",
+        "label": "Aeroplan from Aeroplan balance",
+        "program": "aeroplan",
+        "points": 30000,
+        "feesCents": 9000,
+        "owner": "jordan"
+      },
+      {
+        "id": "B",
+        "label": "Flying Blue via Amex MR",
+        "program": "flying_blue",
+        "points": 15000,
+        "feesCents": 12000,
+        "source": {
+          "program": "amex_mr_ca"
+        },
+        "owner": "avery"
+      },
+      {
+        "id": "C",
+        "label": "Aeroplan via Amex MR",
+        "program": "aeroplan",
+        "points": 30000,
+        "feesCents": 9000,
+        "source": {
+          "program": "amex_mr_ca"
+        },
+        "owner": "jordan"
+      }
+    ]
+  },
+  "expected": {
+    "rounding": "Each line = round(points x cpp) in cents; totals are sums of rounded lines; unknown balances excluded and counted",
+    "netWorthCents": {
+      "avery": 40249,
+      "jordan": 356000,
+      "household": 396249
+    },
+    "unknownBalances": 1,
+    "scenario": {
+      "ranked": [
+        {
+          "id": "C",
+          "cpp": 1.3,
+          "target": 2.2,
+          "targetSource": "catalog",
+          "verdict": "PAY_CASH"
+        },
+        {
+          "id": "A",
+          "cpp": 1.3,
+          "target": 3.0,
+          "targetSource": "override",
+          "verdict": "PAY_CASH"
+        }
+      ],
+      "outOfReach": [
+        {
+          "id": "B",
+          "cpp": 2.4,
+          "shortBy": 5000,
+          "householdHoldings": [
+            {
+              "user": "jordan",
+              "points": 40000
+            }
+          ],
+          "coveredByHousehold": true
+        }
+      ],
+      "story": "Avery can't afford the best option alone, but Jordan's Amex MR covers it. Every affordable option says pay cash."
+    },
+    "dominosNote": "Avery has 50 Domino's points: one $10+ order (10 points) from a free medium pizza at 60"
+  }
+}
