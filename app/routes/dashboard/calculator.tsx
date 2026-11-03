@@ -59,6 +59,11 @@ const verdictLabel: Record<Verdict, string> = {
   UNRATED: "Unrated",
 };
 const shortName = (id: string) => getProgram(id)?.shortName ?? id;
+// Travel only for now (docs/SPEC.md §4): awards are booked in airline or hotel programs.
+const travelPrograms = catalog.programs.filter((p) => p.category === "travel");
+const Hint = ({ children }: { children: React.ReactNode }) => (
+  <p className="text-xs text-muted-foreground">{children}</p>
+);
 const signed = (n: number) => `${n >= 0 ? "+" : "−"}${Math.abs(n).toFixed(2)}`;
 
 export default function CalculatorPage() {
@@ -74,6 +79,10 @@ export default function CalculatorPage() {
         </div>
         <LogoutButton />
       </div>
+      <p className="text-sm text-muted-foreground -mt-4">
+        Compare paying cash vs. points for one trip. Value = (cash price − fees) ÷ points spent, in ¢
+        per point, checked against your target for that program.
+      </p>
       {me.isLoading ? (
         <p className="text-muted-foreground">Loading…</p>
       ) : me.data ? (
@@ -177,37 +186,41 @@ function Calculator({ members }: { members: { userId: string; name: string }[] }
               </Button>
             </div>
 
-            {rows.map((r, i) => {
+            {rows.map((r) => {
               const sources = r.program ? transferSources(r.program) : [];
               return (
-                <div key={r.key} className="flex flex-wrap items-end gap-3 border-t pt-3">
-                  <div className="space-y-1">
-                    <Label>Option {i + 1}</Label>
-                    <Input className="w-56" placeholder="Flying Blue via Amex MR" value={r.label} onChange={(e) => update(r.key, { label: e.target.value })} />
+                <div key={r.key} className="flex flex-wrap items-start gap-3 border-t pt-3">
+                  <div className="space-y-1 w-56">
+                    <Label>Label</Label>
+                    <Input placeholder="Flying Blue via Amex MR" value={r.label} onChange={(e) => update(r.key, { label: e.target.value })} />
+                    <Hint>a name for this option</Hint>
                   </div>
-                  <div className="space-y-1">
+                  <div className="space-y-1 w-40">
                     <Label>Booked in</Label>
                     <Select value={r.program} onValueChange={(v) => update(r.key, { program: v })}>
-                      <SelectTrigger className="w-40"><SelectValue placeholder="Program" /></SelectTrigger>
+                      <SelectTrigger className="w-full"><SelectValue placeholder="Program" /></SelectTrigger>
                       <SelectContent>
-                        {catalog.programs.map((p) => (
+                        {travelPrograms.map((p) => (
                           <SelectItem key={p.id} value={p.id}>{p.shortName}</SelectItem>
                         ))}
                       </SelectContent>
                     </Select>
+                    <Hint>airline or hotel program the award is booked in</Hint>
                   </div>
-                  <div className="space-y-1">
+                  <div className="space-y-1 w-32">
                     <Label>Award points</Label>
-                    <Input className="w-28" inputMode="numeric" value={r.points} onChange={(e) => update(r.key, { points: e.target.value })} />
+                    <Input inputMode="numeric" value={r.points} onChange={(e) => update(r.key, { points: e.target.value })} />
+                    <Hint>points the award costs in that program</Hint>
                   </div>
-                  <div className="space-y-1">
+                  <div className="space-y-1 w-28">
                     <Label>Fees ($)</Label>
-                    <Input className="w-24" inputMode="decimal" value={r.fees} onChange={(e) => update(r.key, { fees: e.target.value })} />
+                    <Input inputMode="decimal" value={r.fees} onChange={(e) => update(r.key, { fees: e.target.value })} />
+                    <Hint>taxes and fees you still pay in cash</Hint>
                   </div>
-                  <div className="space-y-1">
+                  <div className="space-y-1 w-44">
                     <Label>Transfer from</Label>
                     <Select value={r.source} onValueChange={(v) => update(r.key, { source: v })} disabled={sources.length === 0}>
-                      <SelectTrigger className="w-44"><SelectValue /></SelectTrigger>
+                      <SelectTrigger className="w-full"><SelectValue /></SelectTrigger>
                       <SelectContent>
                         <SelectItem value={NONE}>None (direct)</SelectItem>
                         {sources.map((s) => (
@@ -217,11 +230,12 @@ function Calculator({ members }: { members: { userId: string; name: string }[] }
                         ))}
                       </SelectContent>
                     </Select>
+                    <Hint>card points you'd move; we use the catalog ratio</Hint>
                   </div>
-                  <div className="space-y-1">
+                  <div className="space-y-1 w-40">
                     <Label>Paid by</Label>
                     <Select value={r.owner} onValueChange={(v) => update(r.key, { owner: v })}>
-                      <SelectTrigger className="w-36"><SelectValue /></SelectTrigger>
+                      <SelectTrigger className="w-full"><SelectValue /></SelectTrigger>
                       <SelectContent>
                         <SelectItem value={NONE}>Not set</SelectItem>
                         {members.map((m) => (
@@ -229,8 +243,9 @@ function Calculator({ members }: { members: { userId: string; name: string }[] }
                         ))}
                       </SelectContent>
                     </Select>
+                    <Hint>whose balance pays; we check they have enough</Hint>
                   </div>
-                  <Button type="button" variant="ghost" disabled={rows.length === 1} onClick={() => setRows((rs) => rs.filter((x) => x.key !== r.key))}>
+                  <Button type="button" variant="ghost" className="mt-6" disabled={rows.length === 1} onClick={() => setRows((rs) => rs.filter((x) => x.key !== r.key))}>
                     Remove
                   </Button>
                 </div>
@@ -264,6 +279,9 @@ function Results({ data }: { data: EvaluateOutput }) {
 
   return (
     <>
+      <p className="text-xs text-muted-foreground">
+        Use points = beats your target · Borderline = within 10% · Pay cash = below that
+      </p>
       <Card className={verdictCard[result.recommendation.verdict]}>
         <CardHeader>
           <CardDescription>Recommendation</CardDescription>

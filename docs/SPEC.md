@@ -127,6 +127,8 @@ Auth and household creation are must-haves. Gift cards with expiry dates are out
 | Redemption calculator | Golden test passes; UI renders B, A, C with formula strings; shortfall flagged from real balances |
 | Forgotten-points finder | 5 questions return suggestions with recovery URLs; one click adds each as an unknown balance |
 
+**Calculator scope: travel only for now.** "Booked in" lists only `travel` programs; "Transfer from" lists the catalog's transfer sources for that program.
+
 **Deferred: target editing.** Households can't edit targets in the UI yet. Overrides are stored and applied, and a seeded override shows read-only with its source: "your target" in the calculator, "your target 3.0¢ (catalog 2.0¢, …)" in net worth.
 
 **Nice-to-have, if time allows:** save calculator scenarios to revisit; prefill calculator options from the household's balances; "one order away from a free pizza" progress for count-based programs.
