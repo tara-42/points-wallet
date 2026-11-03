@@ -240,6 +240,38 @@ describe("edge cases", () => {
   });
 });
 
+describe("recommendation", () => {
+  const withFlyingBlueDefault = { ...catalog, flying_blue: { shortName: "Flying Blue", cpp: 2.0 } };
+  // X: (480 − 80) / 16,000 = 2.50¢ Aeroplan vs 3.0 override → PAY_CASH
+  const X: PointsOption = { ...A, id: "X", points: 16_000, feesCents: 8_000 };
+  // Y: (480 − 60) / 20,000 = 2.10¢ Flying Blue vs 2.0 catalog default → USE_POINTS
+  const Y: PointsOption = { ...B, id: "Y", points: 20_000, feesCents: 6_000, source: undefined };
+
+  it("skips a higher-ranked option that misses its target", () => {
+    const { ranked, recommendation } = calculate(
+      edmonton({ options: [Y, X], targetCpp: { aeroplan: 3.0 }, catalog: withFlyingBlueDefault }),
+    );
+    expect(ranked.map((r) => [r.id, r.cpp.toFixed(2), r.targetSource, r.verdict])).toEqual([
+      ["X", "2.50", "override", "PAY_CASH"],
+      ["Y", "2.10", "catalog", "USE_POINTS"],
+    ]);
+    expect(recommendation).toEqual({ verdict: "USE_POINTS", optionId: "Y" });
+  });
+
+  it("falls back to the first BORDERLINE when nothing clears its target", () => {
+    // Y against a 2.2 override is 2.10¢ ≥ 1.98¢ floor → BORDERLINE
+    const { ranked, recommendation } = calculate(
+      edmonton({
+        options: [Y, X],
+        targetCpp: { aeroplan: 3.0, flying_blue: 2.2 },
+        catalog: withFlyingBlueDefault,
+      }),
+    );
+    expect(ranked.map((r) => r.verdict)).toEqual(["PAY_CASH", "BORDERLINE"]);
+    expect(recommendation).toEqual({ verdict: "BORDERLINE", optionId: "Y" });
+  });
+});
+
 describe("tie-breaks after margin", () => {
   it("fewer source points wins, then input order", () => {
     // Both 1.30¢ on Aeroplan (same margin): 39,000/30,000 and 26,000/20,000.

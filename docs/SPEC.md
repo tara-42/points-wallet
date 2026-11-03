@@ -70,7 +70,7 @@ Mixed points-and-cash awards follow TPG too: the cash portion goes into `feesCen
 
 **Output, per ranked option:** rank, cpp, savedCents, sourcePoints, spentProgram, target (and whether it's an override or a catalog default), margin, verdict, plus a `formula` string, e.g. `($480.00 − $120.00) ÷ 15,000 Amex MR = 2.40¢/pt`. The program name in the formula is the catalog's `shortName` for `spentProgram`.
 
-**Recommendation:** top-level `recommendation: { verdict, optionId? }` is the top-ranked option's verdict and id, or `PAY_CASH` with no id when the ranking is empty.
+**Recommendation:** top-level `recommendation: { verdict, optionId? }` is the first ranked option with verdict `USE_POINTS`, else the first `BORDERLINE`, else `PAY_CASH` with no id. Ranking is by ¢/pt; the recommendation is by verdict, so a higher-ranked option that misses its target is skipped for a lower one that clears its own.
 
 **Out of reach, per option:** `shortBy` (points the paying member still needs), plus household cover:
 

@@ -180,8 +180,12 @@ export function calculate(rawInput: CalcInput): CalcResult {
     }
   }
 
-  const top = ranked[0];
-  const recommendation = top ? { verdict: top.verdict, optionId: top.id } : { verdict: "PAY_CASH" as const };
+  // Ranking is by ¢/pt; the recommendation is the best-ranked option that clears (or nearly clears) its target.
+  const pick =
+    ranked.find((r) => r.verdict === "USE_POINTS") ?? ranked.find((r) => r.verdict === "BORDERLINE");
+  const recommendation = pick
+    ? { verdict: pick.verdict, optionId: pick.id }
+    : { verdict: "PAY_CASH" as const };
 
   return { ranked, outOfReach, recommendation };
 }
