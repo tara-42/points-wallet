@@ -1,7 +1,7 @@
 import { useState, type FormEvent } from "react";
 import { Link } from "react-router";
 import { api } from "@/trpc/client";
-import { catalog, getProgram } from "@/data/programs";
+import { catalog, getProgram, type Category } from "@/data/programs";
 import { formatDollars } from "@/lib/calculator";
 import { LogoutButton } from "@/components/logout-button";
 import { Button } from "@/components/ui/button";
@@ -32,6 +32,17 @@ export function meta() {
 }
 
 const capitalize = (s: string) => s.charAt(0).toUpperCase() + s.slice(1);
+
+const categoryChip: Record<Category, string> = {
+  travel: "border-transparent bg-sky-100 text-sky-800 dark:bg-sky-900/60 dark:text-sky-200",
+  groceries: "border-transparent bg-lime-100 text-lime-800 dark:bg-lime-900/60 dark:text-lime-200",
+  beauty: "border-transparent bg-pink-100 text-pink-800 dark:bg-pink-900/60 dark:text-pink-200",
+  food: "border-transparent bg-orange-100 text-orange-800 dark:bg-orange-900/60 dark:text-orange-200",
+  coffee: "border-transparent bg-amber-100 text-amber-900 dark:bg-amber-900/60 dark:text-amber-200",
+  retail: "border-transparent bg-violet-100 text-violet-800 dark:bg-violet-900/60 dark:text-violet-200",
+  bank: "border-transparent bg-slate-200 text-slate-800 dark:bg-slate-700 dark:text-slate-100",
+};
+const totalCard = "border-sky-300 bg-sky-50 dark:border-sky-800 dark:bg-sky-950/40";
 const plural = (n: number, word: string) => `${n} ${word}${n === 1 ? "" : "s"}`;
 
 export default function WalletPage() {
@@ -170,7 +181,7 @@ function Wallet() {
         </CardHeader>
       </Card>
 
-      <Card>
+      <Card className={totalCard}>
         <CardHeader>
           <CardDescription>Net worth (CAD)</CardDescription>
           <CardTitle className="text-3xl">{formatDollars(netWorth.totalCents)}</CardTitle>
@@ -285,10 +296,13 @@ function Wallet() {
                 const program = getProgram(l.programId);
                 const mine = l.userId === me;
                 return (
-                  <TableRow key={l.id ?? `${l.userId}-${l.programId}`}>
+                  <TableRow
+                    key={l.id ?? `${l.userId}-${l.programId}`}
+                    className={l.points === null ? "text-muted-foreground" : undefined}
+                  >
                     <TableCell>
                       <div>{program?.name ?? l.programId}</div>
-                      {program && <Badge variant="secondary">{capitalize(program.category)}</Badge>}
+                      {program && <Badge className={categoryChip[program.category]}>{capitalize(program.category)}</Badge>}
                     </TableCell>
                     <TableCell>{memberName.get(l.userId) ?? "Former member"}</TableCell>
                     <TableCell className="text-right">
@@ -338,6 +352,16 @@ function Wallet() {
           </TableBody>
         </Table>
       </div>
+
+      <Card className="border-dashed">
+        <CardHeader>
+          <CardTitle>Gift cards</CardTitle>
+          <CardDescription>
+            Gift cards and vouchers are out of scope for this build. They need a different shape
+            (expiry dates, card codes), so they aren't tracked here yet.
+          </CardDescription>
+        </CardHeader>
+      </Card>
     </>
   );
 }
