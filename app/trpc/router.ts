@@ -7,6 +7,7 @@ import { adminRouter } from "./routes/admin";
 import { workflowsRouter } from "./routes/workflows";
 import { householdRouter } from "./routes/household";
 import { walletRouter } from "./routes/wallet";
+import { calculatorRouter } from "./routes/calculator";
 
 const userRouter = createTRPCRouter({
   getUsers: publicProcedure.query(async ({ ctx }) => {
@@ -46,6 +47,7 @@ export const appRouter = createTRPCRouter({
   workflows: workflowsRouter,
   household: householdRouter,
   wallet: walletRouter,
+  calculator: calculatorRouter,
 });
 
 export type AppRouter = typeof appRouter;

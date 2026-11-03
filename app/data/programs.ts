@@ -93,6 +93,19 @@ const byId = new Map(catalog.programs.map((p) => [p.id, p]));
 export const isProgramId = (id: string): boolean => byId.has(id);
 export const getProgram = (id: string): Program | undefined => byId.get(id);
 
+/** Catalog transfer ratio (1 source pt → ratio target pts), or undefined if there's no such path. */
+export function transferRatio(from: string, to: string): number | undefined {
+  return byId.get(from)?.transfersTo.find((t) => t.program === to)?.ratio;
+}
+
+/** Programs that transfer into `to`, with their ratio. */
+export function transferSources(to: string): { program: Program; ratio: number }[] {
+  return catalog.programs.flatMap((p) => {
+    const t = p.transfersTo.find((x) => x.program === to);
+    return t ? [{ program: p, ratio: t.ratio }] : [];
+  });
+}
+
 /** The injected catalog the redemption calculator expects. */
 export function calculatorCatalog(): CalcInput["catalog"] {
   return Object.fromEntries(

@@ -1,4 +1,5 @@
 import { useState, type FormEvent } from "react";
+import { Link } from "react-router";
 import { api } from "@/trpc/client";
 import { catalog, getProgram } from "@/data/programs";
 import { formatDollars } from "@/lib/calculator";
@@ -39,7 +40,10 @@ export default function WalletPage() {
   return (
     <div className="p-4 space-y-6 max-w-5xl mx-auto">
       <div className="flex items-center justify-between">
-        <h1 className="text-2xl font-semibold">Points Wallet</h1>
+        <div className="flex items-center gap-4">
+          <h1 className="text-2xl font-semibold">Points Wallet</h1>
+          <Link to="/dashboard/calculator" className="text-sm underline">Calculator</Link>
+        </div>
         <LogoutButton />
       </div>
       {me.isLoading ? (

@@ -8,7 +8,7 @@ import { computeNetWorth } from "@/lib/net-worth";
 
 const programId = z.string().refine(isProgramId, "Unknown program");
 
-async function requireHouseholdId(db: Context["db"], userId: string): Promise<string> {
+export async function requireHouseholdId(db: Context["db"], userId: string): Promise<string> {
   const membership = await db.query.householdMember.findFirst({
     where: eq(householdMember.userId, userId),
   });

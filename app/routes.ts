@@ -14,6 +14,7 @@ export default [
     layout("routes/dashboard/_layout.tsx", [
       route("/", "routes/dashboard/_index.tsx"),
       route("wallet", "routes/dashboard/wallet.tsx"),
+      route("calculator", "routes/dashboard/calculator.tsx"),
     ]),
   ]),
 
