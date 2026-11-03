@@ -13,6 +13,7 @@ export default [
   ...prefix("dashboard", [
     layout("routes/dashboard/_layout.tsx", [
       route("/", "routes/dashboard/_index.tsx"),
+      route("wallet", "routes/dashboard/wallet.tsx"),
     ]),
   ]),
 

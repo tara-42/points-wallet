@@ -106,7 +106,7 @@ Fixture values are real as of 2026-11-03 (ratio from Amex Canada, targets from P
 Every calculated value shows its inputs (points, fees, transfer ratio) so the user can inspect the math. The forgotten-points finder returns program suggestions with a recovery URL, not just a label.
 
 - **Calculator rows** show the `formula` string under each ¢/pt, plus where the target came from: "your target" or "catalog default."
-- **Net worth** shows each line as `points × ¢/pt = $`, with the valuation source and as-of date beside it. Unknown balances are listed but excluded from the total, and the total says so ("1 program with an unknown balance").
+- **Net worth** shows each line as `points × ¢/pt = $`, with the valuation source and as-of date beside it. A line uses the household's target for that program when one is set, else the catalog value; the catalog source stays visible: "your target 3.0¢ (catalog 2.0¢, Prince of Travel, 2026-05-01)". Unknown balances are listed but excluded from the total, and the total says so ("1 program with an unknown balance").
 - **Finder results** carry: program name, the answer that triggered it ("you said you order pizza"), the account identifier to try (email, phone, card number), and an `https` recovery URL.
 - **Verifiable:** a unit test asserts every catalog entry has an `https` recovery URL and a finder question that exists.
 
@@ -176,9 +176,9 @@ Four new D1 tables beside Better Auth's `user`; the program catalog is a version
 | `balance` | `id`, `householdId`, `userId`, `programId`, `points` (nullable = unknown), `updatedAt` | Unique on (`householdId`, `userId`, `programId`) |
 | `valuation_override` | `householdId`, `programId`, `targetCpp` (real) | PK on both ids |
 
-**Catalog entry** (`app/data/programs.json`): `id`, `name`, `category` (travel \| groceries \| beauty \| food \| coffee \| retail \| bank), `unit`, `valuation: { cpp, method (benchmark | fixed | estimate), source, sourceUrl, asOf, note }`, `transfersTo: { program, ratio, sourceUrl, asOf }[]`, `recovery: { url, identifier, tip }`, `finder: { questionId, reason }`. Top level: `finderQuestions`, `categories`, `asOf`.
+**Catalog entry** (`app/data/programs.json`): `id`, `name`, `shortName` (used in formula strings, e.g. "Amex MR"), `category` (travel \| groceries \| beauty \| food \| coffee \| retail \| bank), `unit`, `valuation: { cpp, method (benchmark | fixed | estimate), source, sourceUrl, asOf, note }`, `transfersTo: { program, ratio, sourceUrl, asOf }[]`, `recovery: { url, identifier, tip }`, `finder: { questionId, reason }`. Top level: `finderQuestions`, `categories`, `asOf`.
 
-Money is integer cents everywhere. Only `cpp` and `targetCpp` are floats. A net-worth line is `round(points × cpp)` cents; totals are sums of rounded lines.
+Money is integer cents everywhere. Only `cpp` and `targetCpp` are floats. A net-worth line is `round(points × cpp)` cents, where `cpp` is the household's `targetCpp` for that program if set, else the catalog `valuation.cpp`; totals are sums of rounded lines.
 
 ### Seed data
 

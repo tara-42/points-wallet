@@ -74,7 +74,7 @@ export type CalcResult = {
 // Guards against float noise such as 3 / 0.1 = 30.000000000000004, which would ceil to 31.
 const RATIO_EPSILON = 1e-9;
 
-const formatDollars = (cents: number) =>
+export const formatDollars = (cents: number) =>
   `$${(cents / 100).toLocaleString("en-US", { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`;
 
 export function calculate(rawInput: CalcInput): CalcResult {

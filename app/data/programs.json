@@ -38,6 +38,7 @@
     {
       "id": "aeroplan",
       "name": "Aeroplan",
+      "shortName": "Aeroplan",
       "category": "travel",
       "unit": "points",
       "valuation": {
@@ -62,6 +63,7 @@
     {
       "id": "flying_blue",
       "name": "Air France-KLM Flying Blue",
+      "shortName": "Flying Blue",
       "category": "travel",
       "unit": "miles",
       "valuation": {
@@ -86,6 +88,7 @@
     {
       "id": "viporter",
       "name": "Porter VIPorter",
+      "shortName": "VIPorter",
       "category": "travel",
       "unit": "points",
       "valuation": {
@@ -110,6 +113,7 @@
     {
       "id": "ihg",
       "name": "IHG One Rewards",
+      "shortName": "IHG",
       "category": "travel",
       "unit": "points",
       "valuation": {
@@ -134,6 +138,7 @@
     {
       "id": "amex_mr_ca",
       "name": "American Express Membership Rewards (Canada)",
+      "shortName": "Amex MR",
       "category": "bank",
       "unit": "points",
       "valuation": {
@@ -172,6 +177,7 @@
     {
       "id": "chase_ur",
       "name": "Chase Ultimate Rewards",
+      "shortName": "Chase UR",
       "category": "bank",
       "unit": "points",
       "valuation": {
@@ -215,6 +221,7 @@
     {
       "id": "pc_optimum",
       "name": "PC Optimum",
+      "shortName": "PC Optimum",
       "category": "groceries",
       "unit": "points",
       "valuation": {
@@ -239,6 +246,7 @@
     {
       "id": "scene_plus",
       "name": "Scene+",
+      "shortName": "Scene+",
       "category": "groceries",
       "unit": "points",
       "valuation": {
@@ -263,6 +271,7 @@
     {
       "id": "sephora_bi",
       "name": "Sephora Beauty Insider",
+      "shortName": "Sephora BI",
       "category": "beauty",
       "unit": "points",
       "valuation": {
@@ -287,6 +296,7 @@
     {
       "id": "dynamite",
       "name": "Dynamite Collectif",
+      "shortName": "Dynamite",
       "category": "retail",
       "unit": "points",
       "valuation": {
@@ -311,6 +321,7 @@
     {
       "id": "dominos",
       "name": "Domino's Rewards (Canada)",
+      "shortName": "Domino's",
       "category": "food",
       "unit": "points",
       "valuation": {

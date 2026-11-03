@@ -6,6 +6,7 @@ import { TRPCError } from "@trpc/server";
 import { adminRouter } from "./routes/admin";
 import { workflowsRouter } from "./routes/workflows";
 import { householdRouter } from "./routes/household";
+import { walletRouter } from "./routes/wallet";
 
 const userRouter = createTRPCRouter({
   getUsers: publicProcedure.query(async ({ ctx }) => {
@@ -44,6 +45,7 @@ export const appRouter = createTRPCRouter({
   admin: adminRouter,
   workflows: workflowsRouter,
   household: householdRouter,
+  wallet: walletRouter,
 });
 
 export type AppRouter = typeof appRouter;
