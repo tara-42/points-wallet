@@ -28,9 +28,12 @@ type CalcInput = {
   cashPriceCents: number;                        // integer > 0
   options: PointsOption[];
   targetCpp: Partial<Record<ProgramId, number>>; // household overrides; fall back to catalog default
+  catalog: Record<ProgramId, { shortName: string; cpp?: number }>; // injected; the tRPC layer fills it from the loader
   balances?: { userId: string; program: ProgramId; points: number | null }[];
 };
 ```
+
+The catalog is injected, not imported, so the calculator stays pure and tests pass their own values.
 
 **Math, per option** (money in integer cents; ¢/pt kept unrounded for ranking, rounded to 2 dp for display)
 
@@ -38,7 +41,7 @@ type CalcInput = {
 2. `sourcePoints` = `ceil(points / ratio)` if transferred, else `points`.
 3. `savedCents` = `cashPriceCents − feesCents`.
 4. `cpp` = `savedCents / sourcePoints`.
-5. `target` = household override for `spentProgram`, else catalog default, else none.
+5. `target` = household override for `spentProgram`, else the injected catalog's `cpp`, else none.
 6. `margin` = `cpp − target`.
 
 ```
@@ -65,7 +68,9 @@ Mixed points-and-cash awards follow TPG too: the cash portion goes into `feesCen
 
 **Ranking:** `cpp` descending, then `margin` descending, then `sourcePoints` ascending, then input order. Options the paying member can't afford are left out of the ranking and returned separately as `outOfReach`, each with `shortBy` (points still needed to meet the award price).
 
-**Output, per ranked option:** rank, cpp, savedCents, sourcePoints, spentProgram, target (and whether it's an override or a catalog default), margin, verdict, plus a `formula` string, e.g. `($480.00 − $120.00) ÷ 15,000 Amex MR = 2.40¢/pt`.
+**Output, per ranked option:** rank, cpp, savedCents, sourcePoints, spentProgram, target (and whether it's an override or a catalog default), margin, verdict, plus a `formula` string, e.g. `($480.00 − $120.00) ÷ 15,000 Amex MR = 2.40¢/pt`. The program name in the formula is the catalog's `shortName` for `spentProgram`.
+
+**Recommendation:** top-level `recommendation: { verdict, optionId? }` is the top-ranked option's verdict and id, or `PAY_CASH` with no id when the ranking is empty.
 
 **Out of reach, per option:** `shortBy` (points the paying member still needs), plus household cover:
 

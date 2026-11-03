@@ -10,7 +10,7 @@ The spec is the contract. Build against it; don't build what it cuts.
 
 - One task at a time. Before writing code, read the files you'll touch and propose a plan of at most 5 bullets. Wait for approval.
 - Every task has a verification. Run it and show the output; a task is not done until it passes.
-- Run `bun run typecheck` before proposing a commit. Keep each diff small and on-task.
+- Before proposing a commit, check for new type errors: `bun run typecheck 2>&1 | grep "error TS" | grep -vE '^(workflows/|app/models/recipe\.ts)'` must print nothing. The template's demo code (`workflows/`, `app/models/recipe.ts`) has type errors of its own; leave them alone. Keep each diff small and on-task.
 - If the spec is ambiguous, wrong, or in the way, stop and ask. Don't guess. If a decision changes, update `docs/SPEC.md` in the same commit.
 - When something fails, diagnose and show the error before changing files.
 
