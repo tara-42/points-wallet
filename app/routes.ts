@@ -15,6 +15,7 @@ export default [
       route("/", "routes/dashboard/_index.tsx"),
       route("wallet", "routes/dashboard/wallet.tsx"),
       route("calculator", "routes/dashboard/calculator.tsx"),
+      route("finder", "routes/dashboard/finder.tsx"),
     ]),
   ]),
 

@@ -83,6 +83,20 @@ export const walletRouter = createTRPCRouter({
       return { ok: true };
     }),
 
+  // Finder's "Add to wallet": records the program as unknown, but never touches an existing balance.
+  addUnknown: protectedProcedure
+    .input(z.object({ programId }))
+    .mutation(async ({ ctx, input }) => {
+      const userId = ctx.auth.user.id;
+      const householdId = await requireHouseholdId(ctx.db, userId);
+      const inserted = await ctx.db
+        .insert(balance)
+        .values({ id: crypto.randomUUID(), householdId, userId, programId: input.programId, points: null })
+        .onConflictDoNothing({ target: [balance.householdId, balance.userId, balance.programId] })
+        .returning({ id: balance.id });
+      return { added: inserted.length > 0 };
+    }),
+
   deleteBalance: protectedProcedure
     .input(z.object({ programId }))
     .mutation(async ({ ctx, input }) => {

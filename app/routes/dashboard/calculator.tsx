@@ -70,6 +70,7 @@ export default function CalculatorPage() {
         <div className="flex items-center gap-4">
           <h1 className="text-2xl font-semibold">Redemption calculator</h1>
           <Link to="/dashboard/wallet" className="text-sm underline">Wallet</Link>
+          <Link to="/dashboard/finder" className="text-sm underline">Finder</Link>
         </div>
         <LogoutButton />
       </div>

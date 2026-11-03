@@ -43,6 +43,7 @@ export default function WalletPage() {
         <div className="flex items-center gap-4">
           <h1 className="text-2xl font-semibold">Points Wallet</h1>
           <Link to="/dashboard/calculator" className="text-sm underline">Calculator</Link>
+          <Link to="/dashboard/finder" className="text-sm underline">Finder</Link>
         </div>
         <LogoutButton />
       </div>
