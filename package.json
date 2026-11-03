@@ -14,8 +14,8 @@
     "auth:generate": "bunx --bun @better-auth/cli generate --config auth.config.ts",
     "db:studio": "drizzle-kit studio",
     "db:generate": "drizzle-kit generate",
-    "db:migrate:local": "wrangler d1 migrations apply takehome-assignment-ts-db --local",
-    "db:migrate:remote": "wrangler d1 migrations apply takehome-assignment-ts-db --remote",
+    "db:migrate:local": "wrangler d1 migrations apply DATABASE --local",
+    "db:migrate:remote": "wrangler d1 migrations apply DATABASE --remote",
     "setup": "bun run scripts/first-time-setup.ts"
   },
   "dependencies": {

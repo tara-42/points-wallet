@@ -1,6 +1,6 @@
 // Secrets to be set via 'wrangler secret put BETTER_AUTH_SECRET'
 {
-  "name": "takehome-assignment-ts",
+  "name": "points-wallet",
   "main": "workers/app.ts",
   "compatibility_date": "2025-03-25",
   "compatibility_flags": [
@@ -16,31 +16,31 @@
   "d1_databases": [
     {
       "binding": "DATABASE",
-      "database_name": "takehome-assignment-ts-db",
-      "database_id": "c507b01a-1170-4524-b2f9-1aa9e9283e31",
+      "database_name": "points-wallet-db",
+      "database_id": "01f60b15-a353-403a-8337-ea9dcb89bed0",
       "migrations_dir": "./drizzle"
     }
   ],
   "r2_buckets": [
     {
       "binding": "BUCKET",
-      "bucket_name": "takehome-assignment-ts-bucket"
+      "bucket_name": "points-wallet-bucket"
     }
   ],
   "workflows": [
     {
       "binding": "EXAMPLE_WORKFLOW",
-      "name": "takehome-assignment-ts-example-workflow",
+      "name": "points-wallet-example-workflow",
       "class_name": "ExampleWorkflow"
     },
     {
       "binding": "SCRAPER_WORKFLOW",
-      "name": "takehome-assignment-ts-scraper-workflow",
+      "name": "points-wallet-scraper-workflow",
       "class_name": "ScraperWorkflow"
     },
     {
       "binding": "PIPELINE_WORKFLOW",
-      "name": "takehome-assignment-ts-pipeline-workflow",
+      "name": "points-wallet-pipeline-workflow",
       "class_name": "PipelineWorkflow"
     }
   ],
